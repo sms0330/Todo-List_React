@@ -26,3 +26,21 @@
 .create-button:hover {
   background: #3bc9db;
 }
+
+.save-button {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 1rem;
+  background: #dba83b;
+  border-radius: 3px;
+  color: white;
+  font-weight: 600;
+  font-size: large;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background: #faab00;
+}

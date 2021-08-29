@@ -5,17 +5,22 @@ import TodoItemList from './components/TodoItemList';
 import Palette from './components/Palette';
 
 const colors = ['#343a40', '#f03e3e', '#12b886', '#228ae6']
+let savedToDos = localStorage.getItem("todos");
+
+if (savedToDos !== null) {
+  const parsedToDos = JSON.parse(savedToDos);
+  savedToDos = parsedToDos;
+}
+
+let lastId = savedToDos.length-1
 class App extends Component {
-
-  id = 3 // 이미 0,1,2 가 존재하므로 3으로 설정
-
+  id = lastId++
   state = {
     input: '',
-    todos: [
-      { id: 0, text: ' 리액트 소개', checked: false },
-      { id: 1, text: ' 리액트 소개', checked: true },
-      { id: 2, text: ' 리액트 소개', checked: false }
-    ],
+    todos: savedToDos ? savedToDos : [],
+      // { id: 0, text: ' 리액트 소개', checked: false } ],
+      // { id: 1, text: ' 리액트 소개', checked: true },
+      // { id: 2, text: ' 리액트 소개', checked: false }
     color: '#343a40'
   }
 
@@ -37,6 +42,10 @@ class App extends Component {
         color
       })
     });
+  }
+
+  handleSave = () => {
+    localStorage.setItem("todos", JSON.stringify(this.state.todos))
   }
 
   handleKeyPress = (e) => {
@@ -87,10 +96,11 @@ class App extends Component {
       handleKeyPress,
       handleToggle,
       handleRemove,
-      handleSelectColor
+      handleSelectColor,
     } = this;
 
     return (
+    <>
       <TodoListTemplate form={(
         <Form 
           value={input}
@@ -105,6 +115,8 @@ class App extends Component {
         )}>
         <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove}/>
       </TodoListTemplate>
+      <button className="save-button" onClick={ () => { this.handleSave() } }>저장</button>
+    </>
     );
   }
 }
